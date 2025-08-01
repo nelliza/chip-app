@@ -1,26 +1,30 @@
-import React from 'react';
-import logo from './logo.svg';
+import { useState } from 'react';
+
+import { ChipList } from 'components/ChipList';
+import { chips } from 'models/chips';
+
 import './App.css';
 
-function App() {
+const App = () => {
+  const [selectedChipIds, setSelectedChipIds] = useState<number[]>([]);
+
+  const handleSelect = (chipId: number) => {
+    setSelectedChipIds((prevIds) => {
+      if (prevIds.includes(chipId)) {
+        return prevIds.filter((id) => id !== chipId);
+      } else {
+        return [...prevIds, chipId];
+      }
+    });
+  };
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <ChipList
+      chips={chips}
+      selectedIds={selectedChipIds}
+      onSelect={handleSelect}
+    />
   );
-}
+};
 
 export default App;
